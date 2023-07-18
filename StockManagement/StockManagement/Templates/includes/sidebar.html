@@ -1,0 +1,122 @@
+{% load static %}
+
+<body>
+    <div class="main-wrapper">
+        <div class="header">
+            <div class="header-left">
+                <a href="index.html" class="logo">
+                    <img src="{% static 'admin/dist/img/avatar.png' %}" alt="Logo">
+                </a>
+                <a href="index.html" class="logo logo-small">
+                    <img src="{% static 'admin/dist/img/avatar.png' %}" alt="Logo" width="30" height="30">
+                </a>
+                <span>{{teacher_data.name}}{{student_data.name}}</span>
+
+            </div>
+            <a href="javascript:void(0);" id="toggle_btn">
+                <i class="fas fa-align-left"></i>
+            </a>
+            <div class="top-nav-search">
+                <form>
+                    <input type="text" class="form-control" placeholder="Search here">
+                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+            </div>
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+            <ul class="nav user-menu">
+                <li class="nav-item dropdown noti-dropdown">
+                </li>
+                <li class="nav-item dropdown has-arrow">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        {% if student_data.photo %}
+                        <span class="user-img"><img class="rounded-circle" src="{% static student_data.photo.url %}"
+                                width="31" alt="{{request.user.username}}"></span>
+                        {% else %}
+                        <span class="user-img"><img class="rounded-circle"
+                                src="{% static 'admin/img/user.jpg' %}" width="31"
+                                alt="{{request.user.username}}"></span>
+                        {% endif %}
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src="{% static 'admin/img/user.jpg' %}" alt="User Image" class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>{{request.user.username}}</h6>
+                                <p class="text-muted mb-0">Administrator</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="profile.html">My Profile</a>
+                        <a class="dropdown-item" href="inbox.html">Inbox</a>
+                        <a class="dropdown-item" href="{% url 'logoutPage' %}">Logout</a>
+                    </div>
+                </li>
+            </ul>
+            {% include "includes/messages.html" %}
+
+        </div>
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">
+                            <span>Main Menu</span>
+                        </li>
+                        <li>
+                            <a href=" {% url 'DashboardPage' %} "><i class=" fas fa-user-graduate"></i><span>Dashboard</span></a>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="fas fa-user-graduate"></i> <span> User Management</span> <span
+                                    class="menu-arrow"></span></a>
+                            <ul>
+                                {% if request.user.is_super_user %}
+                                <a href="#"><i class="fas fa-user-graduate"></i> <span> Roles</span> <span
+                                        class="menu-arrow"></span></a>
+
+                                <ul>
+                                    <li><a href="{% url 'manageroles' %}">Roles List</a></li>
+                                    <li><a href="{% url 'addroles' %}">Role Add</a></li>
+                                </ul>
+                                {%endif %}
+                                <a href="#"><i class="fas fa-user-graduate"></i> <span> Users</span> <span
+                                        class="menu-arrow"></span></a>
+                                <ul>
+                                    <li><a href="{% url 'studentlist' %}">Users List</a></li>
+                                    {% if perms.auth.add_user %}
+                                    <li><a href="{% url 'studentAdd' %}">Users Add</a></li>
+                                    {% endif %}
+                                </ul>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                        </li>
+
+
+                                <li class="submenu">
+                                    <a href="#"><i class="fas fa-user-graduate"></i> <span>Categories</span> <span
+                                            class="menu-arrow"></span></a>
+                                    <ul>
+                                        <li><a href="{% url 'ShopCategoryList' %}">Shops Categories</a></li>
+                                        <li><a href="{% url 'ProductCategoryList' %}">Product Categories</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href=" {% url 'ProductList' %} "><i class=" fas fa-book "></i><span>Products</span></a>
+                              </li>
+                              <li>
+                                  <a href=" {% url 'ProductImportedList' %} "><i class=" fas fa-book "></i><span>Purchased Products</span></a>
+                              </li>
+                        <li>
+                                <a href=" {% url 'userProfilePage' %} "><i class=" fas fa-book "></i><span>Setting</span></a>
+                            </li>
+                            <li>
+                            <a class=" dropdown-item " href=" {% url 'logoutPage' %} ">Logout</a>
+                        </li>
+                        <li></li>
+
+                </div>
+            </div>
+        </div>

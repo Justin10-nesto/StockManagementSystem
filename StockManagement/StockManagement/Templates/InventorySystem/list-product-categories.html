@@ -1,0 +1,257 @@
+{% load static %} {% include "includes/header.html" %} {% include "includes/sidebar.html" %}
+
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Students</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Product Category</li>
+                    </ul>
+                </div>
+                <div class="col-auto text-right float-right ml-auto">
+                    <a href="#" class="btn btn-outline-primary mr-2"><i class="fas fa-download"></i> Download</a>
+                    <a class="btn btn-sm bg-success-light mr-2" data-toggle="modal" data-target="#modal-default_add" href="#edit_personal_details">
+                    <i class="fas fa-plus"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table id="example1" class="table table-hover table-center mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th class="text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in categories %}
+                        <tr>
+                            <td>{{category.id}}</td>
+
+                            <td>{{category.name}}</td>
+                            <td class="text-right">
+                                <div class="actions">
+                                    <a class="btn btn-sm bg-success-light mr-2" data-toggle="modal" data-target="#modal-default_edit_category_{{category.id}}" href="#edit_personal_details"><i
+                                            class="fas fa-pen"></i></a>
+                                    </a>
+                                    <a class="btn btn-sm bg-success-light mr-2" data-toggle="modal" data-target="#modal-default_delete_{{category.id}}" href="#edit_personal_details">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                                </td>
+                                <div class="modal fade" id="modal-default_edit_category_{{category.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Edit Product Category Information</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{% url 'EditShopCategory' category.id %}" enctype="multipart/form-data" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label>Name</label>
+                                                        <input type="text" name="name" value="{{category.name}}" class="form-control">
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <input type="submit" class="btn btn-primary" value="Save changes">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="modal-default_delete_{{category.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Delete Product Category Information</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h3>Are you sure you want to delete category of
+                                                    <b>{{category.name}}</b>
+                                                </h3>
+                                                <a href="{% url 'DeleteProductCategory' category.id %}" class="btn btn-sm bg-danger-light text-right">
+                                                    Delete
+                                                </a>
+                                                </div>
+                                            </div>
+        
+                                        </div>
+                                    </div>
+                           
+                        </tr>
+
+                            {% endfor %}
+                    </tbody>
+                </table>
+                <div class="modal fade" id="modal-default_add">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Add Product Category Information</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form enctype="multipart/form-data" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="text text-left">Name</label>
+                                        <input type="text" name="name" class="form-control">
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-primary" value="Save changes">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                </div>
+            </div>
+        </div>
+        {% if student_list %}
+        <div class="row">
+            <div class="table-responsive">
+                <table id="example1" class="table table-hover table-center mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Registration Number</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>gender</th>
+                            <th>course</th>
+                            <th>Class</th>
+                            <th class="text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in student_list %}
+                        <tr>
+                            <td>{{category.id}}</td>
+
+                            <th>{{category.name}}</th>
+                            <td>{{category.registration_no}}</td>
+                            <td>{{category.category.email}}</td>
+                            <td>{{category.phone_number}}</td>
+                            <td>{{category.gender}}</td>
+                            <td>{{category.course.name}}</td>
+                            <td>{{category.classCurrent.name}}</td>
+                            <td class="text-right">
+                                <div class="actions">
+                                    <a class="btn btn-sm bg-success-light mr-2" data-toggle="modal" data-target="#modal-default_{{category.category.id}}" href="#edit_personal_details"><i
+                                            class="fas fa-pen"></i></a>
+                                    </a>
+                                    <a class="btn btn-sm bg-success-light mr-2" data-toggle="modal" data-target="#modal-default_roles_{{category.category.id}}" href="#edit_personal_details"><i class="fas fa-eye"></i></a>
+                                    </a>
+                                    <a href="{% url 'blockcategory' category.category.id %}" class="btn btn-sm bg-danger-light">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+
+                                <div class="modal fade" id="modal-default_{{category.category.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Student Information</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{% url 'updateStudent' %}" enctype="multipart/form-data" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label>Full Name</label>
+                                                        <input type="text" name="name" value="{{category.category.categoryname}}" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Index Number</label>
+                                                        <input type="text" name="index_number" value="{{category.registration_no}}" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Gender</label>
+                                                        <select name="gender" class="form-control">
+                                                            <option value="Female">Female</option>
+                                                            <option value="Male">Male</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Date of Birth</label>
+                                                        <input type="date" name="bod" value="{{category.date_of_birth}}" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Couse</label>
+                                                        <select class="form-control" name="class_level">
+                                                            {% for course in Courses %}
+                                                            <option value="{{course.id}}">{{course.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Class</label>
+                                                        <select class="form-control" name="class_level">
+                                                            {% for class_ in current_class %}
+                                                            <option value="{{class_.id}}">{{class_.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Phone Number</label>
+                                                        <input type="text" name="phone_no" value="{{category.phone_number}}" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Email</label>
+                                                        <input type="email" name="Email" value="{{category.category.email}}" class="form-control">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Student Image</label>
+                                                        <input type="file" class="form-control">
+                                                    </div>
+
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <input type="submit" class="btn btn-primary" value="Save changes">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+</div>
+</div>
+<script>
+    $(function() {
+        $("#example1").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+</script>
+{% load static %} {% include "includes/footer.html" %}
